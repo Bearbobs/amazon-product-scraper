@@ -11,10 +11,13 @@ output={}
 star_list=[]
 price_list=[]
 for i in data:
-    temp=re.search(r'(.*?)out', i["rating"]).group(1).strip()
-    star_list.append(float(temp))
+    temp=re.search(r'(.*?)out', i["rating"])
+    if temp!=None:
+        temp=temp.group(1).strip()
+        star_list.append(float(temp))
     temp=i["price"].split("\u20b9\u00a0")[1].strip().replace(',','')
-    price_list.append(float(temp))
+    if temp!=None:
+        price_list.append(float(temp))
 
 output["star_min"]=min(star_list)
 output["star_max"]=max(star_list)

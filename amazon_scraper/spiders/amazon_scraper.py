@@ -1,6 +1,5 @@
 import scrapy
 import re
-from bs4 import BeautifulSoup as BS
 from ..items import Product
 
 
@@ -23,7 +22,7 @@ class AmazonScraper(scrapy.Spider):
 
     def start_requests(self):
         # starting urls for scraping
-        urls = ["https://www.amazon.in/s?k=mobile&ref=nb_sb_noss_2"]
+        urls = ["https://www.amazon.in/s?k=keyboard&ref=nb_sb_noss_2"]
 
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse, headers=self.headers)
@@ -31,14 +30,11 @@ class AmazonScraper(scrapy.Spider):
     def parse(self, response):
 
         self.no_of_pages -= 1
-
-        soup = BS(response.text, features="lxml")
-        refined_soup = BS(str(soup.findAll("div", {
-                          "class": "a-section a-spacing-small a-spacing-top-small"})), features="lxml")
+        results=response.xpath("//div[@class='a-section a-spacing-small a-spacing-top-small']//span//text()").get()
         self.total_results = re.search(
-            r'over(.*?)results', refined_soup.select_one("span").text).group(1).strip()
+            r'over(.*?)results', results).group(1).strip()
         self.per_page_result = re.search(
-            r'-(.*?)of', refined_soup.select_one("span").text).group(1).strip()
+            r'-(.*?)of', results).group(1).strip()
         products = response.xpath(
             "//a[@class='a-link-normal a-text-normal']").xpath("@href").getall()
 
