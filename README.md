@@ -32,3 +32,5 @@ sh scrape.sh
 
 * Adding cli option in scrape.sh to scrape all pages with the help of per_page_result variable.(not implimented by default due to risk of getting blocked by amazon)
 
+* Error Handling and unit tests
+
