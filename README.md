@@ -34,3 +34,5 @@ sh scrape.sh
 
 * Error Handling and unit tests
 
+### Note
+Implimented and Tested for amazon.in
